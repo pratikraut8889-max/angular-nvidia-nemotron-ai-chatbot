@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { ChatMessage, ChatService, ConversationSummary } from './chat.service';
-
+import { MatIconModule} from '@angular/material/icon'
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu'
 @Component({
   selector: 'app-chat',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, MatIconModule, MatButtonModule, MatMenuModule],
   templateUrl: './chat.html',
   styleUrl: './chat.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,10 +25,18 @@ export class Chat implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly chat = inject(ChatService);
   private readonly router = inject(Router);
+  readonly userProfile = signal<any>({})
 
   ngOnInit(): void {
     this.auth.currentUser().subscribe({
-      next: () => this.loadConversations(),
+      next: (res: any) => {
+        console.log("res", res)
+        this.userProfile.set(res.user)
+        
+        
+        this.loadConversations()
+
+      },
       error: () => {
         this.pageLoading.set(false);
         void this.router.navigate(['/login']);
@@ -55,6 +65,10 @@ export class Chat implements OnInit {
       next: ({ conversation }) => {
         this.activeConversationId.set(conversation.id);
         this.messages.set(conversation.messages);
+        console.log(
+         this.messages()
+        );
+        
       },
       error: () => this.error.set('Could not load this conversation. Please try again.'),
     });
@@ -86,6 +100,8 @@ export class Chat implements OnInit {
     this.chat.sendMessage(conversationId, content).subscribe({
       next: ({ messages }) => {
         this.messages.update((current) => [...current, ...messages]);
+        console.log("mesaages", this.messages);
+        
         this.conversations.update((items) => {
           const current = items.find((item) => item.id === conversationId);
           if (!current) {
