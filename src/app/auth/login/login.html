@@ -1,0 +1,67 @@
+<div class="relative flex flex-col items-center justify-center p-2 h-[100vh] w-full">
+
+
+  <form
+    [formRoot]="loginForm"
+    (ngSubmit)="submit()"
+    class="flex flex-col gap-4 w-full max-w-md mx-auto py-8 px-4 
+ bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-70 border border-gray-300 shadow-2xl
+"
+  >
+    <h2 class="mb-4 text-2xl font-bold text-center">
+    Log in to your account
+  </h2>
+  <a
+      routerLink="/signup"
+      class="text-blue-600 hover:text-blue-800 ml-auto"
+    >
+      Create an account
+    </a>
+    <mat-form-field appearance="outline" class="w-full" >
+      <mat-label>Email</mat-label>
+
+      <input
+        matInput
+        type="email"
+        autocomplete="email"
+        [formField]="loginForm.email"
+        placeholder="Enter your email"
+        
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Password</mat-label>
+
+      <input
+        matInput
+        type="password"
+        autocomplete="current-password"
+        [formField]="loginForm.password"
+        placeholder="Enter your password"
+      />
+    </mat-form-field>
+
+    @if (error()) {
+      <p role="alert" class="text-sm text-red-700">
+        {{ error() }}
+      </p>
+    }
+
+    <a
+      routerLink="/forget-password"
+      class="text-blue-600 hover:text-blue-800 text-center"
+    >
+      Forget Password
+    </a>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+    >
+      Login
+    </button>
+
+    
+  </form>
+</div>
