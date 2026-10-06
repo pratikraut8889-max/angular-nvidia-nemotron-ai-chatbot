@@ -143,7 +143,7 @@ export class Chat implements OnInit {
 
   logout(): void {
     localStorage.removeItem("token");
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
   private loadConversations(): void {
