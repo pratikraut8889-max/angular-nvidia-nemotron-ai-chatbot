@@ -24,12 +24,12 @@ export class AuthService {
     return this.http.post<{ user: AuthUser, token: string }>('/api/auth/login', { email, password });
   }
 
-  currentUser(): Observable<{ user: AuthUser }> {
+  currentUser(): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` 
     })
-    return this.http.get<{ user: AuthUser }>('/api/auth/me', { headers});
+    return this.http.get<any>('/api/auth/me', { headers});
   }
 
 }

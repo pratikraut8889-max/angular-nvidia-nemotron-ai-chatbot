@@ -54,6 +54,16 @@
                 [attr.aria-label]="message.role === 'user' ? 'Your message' : 'Assistant response'">
                 <p class="mb-1 text-sm font-semibold">{{ message.role === 'user' ? 'You' : 'Assistant' }}</p>
                 <p class="whitespace-pre-wrap">{{ message.content }}</p>
+                @if (message.role === 'assistant') {
+                <div class="mt-2 flex gap-2" aria-label="Rate this response">
+                    <button type="button" (click)="sendFeedback(message, 'up')"
+                        [attr.aria-pressed]="message.feedback?.rating === 'up'"
+                        class="rounded px-2 py-1 text-sm hover:bg-gray-200">Helpful</button>
+                    <button type="button" (click)="sendFeedback(message, 'down')"
+                        [attr.aria-pressed]="message.feedback?.rating === 'down'"
+                        class="rounded px-2 py-1 text-sm hover:bg-gray-200">Not helpful</button>
+                </div>
+                }
             </article>
             }
             @if (loading()) {

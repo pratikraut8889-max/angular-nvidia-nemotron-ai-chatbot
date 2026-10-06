@@ -9,8 +9,6 @@ export async function connectDatabase(): Promise<void> {
   connection ??= client.connect().then(async () => {
     await Promise.all([
       database.collection('users').createIndex({ email: 1 }, { unique: true }),
-      database.collection('sessions').createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }),
-      database.collection('sessions').createIndex({ tokenHash: 1 }, { unique: true }),
       database.collection('conversations').createIndex({ userId: 1, updatedAt: -1 }),
     ]);
   });

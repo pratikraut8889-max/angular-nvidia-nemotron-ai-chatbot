@@ -1,9 +1,8 @@
 import express from 'express';
 import { ObjectId } from 'mongodb';
 import { getDatabase } from '../config/database';
-import { generateChatResponse, type ChatMessage } from '../services/ai.service';
-import jwt from 'jsonwebtoken';
-const JWTSecretKey = 'gfdglfgdfhgj4hgjk';
+import { generateChatResponse, } from '../services/ai.service';
+import authMiddleware from '../middleware/auth';
 const router = express.Router();
 const MAX_MESSAGE_LENGTH = 4000;
 const MAX_CONTEXT_MESSAGES = 20;
@@ -28,32 +27,8 @@ function serializeMessage(message: any) {
 }
 
 
-const authMiddleware = (req: any, res: any, next: any) => {
-    const authHeader = req.headers['authorization'];
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ 
-            success: false, 
-            message: 'Access denied. No token provided.' 
-        });
-    }
 
-    const token = authHeader.split(' ')[1];
-
-    try {
-        const decoded = jwt.verify(token, JWTSecretKey);
-        
-        req.user = decoded;
-        
-        next();
-    } catch (error) {
-        return res.status(403).json({ 
-            success: false, 
-            message: 'Invalid or expired token.' 
-        });
-    }
-};
-
-router.get('/', authMiddleware,  async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   const conversations = await getDatabase()
     .collection('conversations')
     .find({ userId: userIdFrom(req) })
@@ -92,7 +67,7 @@ router.post('/', authMiddleware, async (req, res) => {
   });
 });
 
-router.get('/:conversationId', async (req, res) => {
+router.get('/:conversationId', authMiddleware, async (req, res) => {
   const id = conversationIdFrom(req);
   if (!id) {
     res.status(400).json({ error: 'Invalid conversation ID.' });
@@ -116,7 +91,7 @@ router.get('/:conversationId', async (req, res) => {
   });
 });
 
-router.delete('/:conversationId' ,authMiddleware, async (req, res) => {
+router.delete('/:conversationId', authMiddleware, async (req, res) => {
   const id = conversationIdFrom(req);
   if (!id) {
     res.status(400).json({ error: 'Invalid conversation ID.' });
@@ -132,7 +107,7 @@ router.delete('/:conversationId' ,authMiddleware, async (req, res) => {
   res.status(204).end();
 });
 
-router.post('/:conversationId/messages', authMiddleware ,async (req, res) => {
+router.post('/:conversationId/messages', authMiddleware, async (req, res) => {
   const id = conversationIdFrom(req);
   const content = typeof req.body?.content === 'string' ? req.body.content.trim() : '';
   if (!id) {
@@ -151,6 +126,7 @@ router.post('/:conversationId/messages', authMiddleware ,async (req, res) => {
     return;
   }
 
+  
   const userMessage: any = {
     _id: new ObjectId(),
     role: 'user',
@@ -159,7 +135,7 @@ router.post('/:conversationId/messages', authMiddleware ,async (req, res) => {
   };
 
   try {
-    const context: ChatMessage[] = [
+    const context: any[] = [
       ...conversation.messages.slice(-(MAX_CONTEXT_MESSAGES - 1)),
       { role: userMessage.role, content: userMessage.content },
     ];
@@ -189,7 +165,7 @@ router.post('/:conversationId/messages', authMiddleware ,async (req, res) => {
     });
   } catch (error) {
     console.error('Conversation message generation failed:', error instanceof Error ? error.message : error);
-    res.status(502).json({ error: 'The assistant could not generate a response.' });
+    res.status(502).json({ error: 'The assistant could not generate a response.', errorM: error });
   }
 });
 
@@ -232,7 +208,7 @@ router.post('/:conversationId/messages/:messageId/feedback', authMiddleware, asy
     res.status(404).json({ error: 'Assistant message not found in this conversation.' });
     return;
   }
-  res.status(200).json({messge: "Thakn you  for your feedback"}).end();
+  res.status(200).json({ messge: "Thakn you  for your feedback" }).end();
 });
 
 export default router;

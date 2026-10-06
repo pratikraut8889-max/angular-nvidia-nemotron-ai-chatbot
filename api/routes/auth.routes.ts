@@ -2,34 +2,13 @@ import express from 'express';
 import { ObjectId } from 'mongodb';
 import { getDatabase } from '../config/database';
 import Cryptr from 'cryptr';
-const cryptr = new Cryptr('SecretKEy');
 import jwt from 'jsonwebtoken';
-
+import authMiddleware from '../middleware/auth'
+const cryptr = new Cryptr('SecretKEy');
 const JWTSecretKey = 'gfdglfgdfhgj4hgjk';
 const router = express.Router();
 
-const authMiddleware = (req: any, res: any, next: any) => {
-    const authHeader = req.headers['authorization'];
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ 
-            success: false, 
-            message: 'Access denied. No token provided.' 
-        });
-    }
 
-    const token = authHeader.split(' ')[1];
-
-    try {
-        const decoded = jwt.verify(token, JWTSecretKey);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return res.status(403).json({ 
-            success: false, 
-            message: 'Invalid or expired token.' 
-        });
-    }
-};
 
 // SIGNUP ROUTE
 router.post('/signup', async (req, res) => {
