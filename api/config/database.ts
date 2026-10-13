@@ -10,6 +10,10 @@ export async function connectDatabase(): Promise<void> {
     await Promise.all([
       database.collection('users').createIndex({ email: 1 }, { unique: true }),
       database.collection('conversations').createIndex({ userId: 1, updatedAt: -1 }),
+      database.collection('documents').createIndex({ userId: 1, createdAt: -1 }),
+      database.collection('documentChunks').createIndex({ userId: 1, documentId: 1, chunkIndex: 1 }, { unique: true }),
+      database.collection('rateLimits').createIndex({ key: 1 }, { unique: true }),
+      database.collection('rateLimits').createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }),
     ]);
   });
   try {

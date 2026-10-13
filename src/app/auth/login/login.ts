@@ -43,8 +43,9 @@ export class Login {
     const response = await firstValueFrom(
       this.auth.login(payload.email, payload.password)
     );
-    console.log(response);
-    localStorage.setItem('token', response.token)
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('token', response.token);
+    }
     
 
     await this.router.navigate(['/chat']);

@@ -9,11 +9,22 @@ import express from 'express';
 import { join } from 'node:path';
 import api from '../api';
 import { connectDatabase } from '../api/config/database';
+import { getJwtSecret } from '../api/config/security';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
+app.disable('x-powered-by');
+app.use((_req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+// The app runs behind one managed reverse proxy in production (for example Render).
+// This allows req.ip-based limits to use the client IP instead of the proxy IP.
+app.set('trust proxy', 1);
 const angularApp = new AngularNodeAppEngine();
-app.use('/api', express.json(), api);
+app.use('/api', express.json({ limit: '64kb' }), api);
 
 
 app.use(
@@ -41,6 +52,17 @@ app.use((req, res, next) => {
  */
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || 4000;
+  // Fail fast instead of deploying a service whose authentication or AI calls cannot work.
+  try {
+    getJwtSecret();
+    if (!process.env['NVIDIA_API_KEY']) {
+      throw new Error('NVIDIA_API_KEY must be configured for chat and document embeddings.');
+    }
+  } catch (error) {
+    console.error('Runtime configuration failed:', error instanceof Error ? error.message : error);
+    process.exit(1);
+  }
+
   connectDatabase()
     .then(() => {
       app.listen(port, (error) => {

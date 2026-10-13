@@ -1,27 +1,61 @@
+import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-const JWTSecretKey = 'gfdglfgdfhgj4hgjk';
+import { ObjectId } from 'mongodb';
+import { getJwtSecret } from '../config/security';
 
-const authMiddleware = (req: any, res: any, next: any) => {
-    const authHeader = req.headers['authorization'];
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ 
-            success: false, 
-            message: 'Access denied. No token provided.' 
-        });
-    }
-
-    const token = authHeader.split(' ')[1];
-
-    try {
-        const decoded = jwt.verify(token, JWTSecretKey);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return res.status(403).json({ 
-            success: false, 
-            message: 'Invalid or expired token.' 
-        });
-    }
+type AuthenticatedRequest = Request & {
+  user?: {
+    id: string;
+    userId: ObjectId;
+    email?: string;
+    [key: string]: unknown;
+  };
 };
 
- export default authMiddleware;
+const authMiddleware = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+): void => {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    res.status(401).json({ success: false, message: 'Access denied. No token provided.' });
+    return;
+  }
+
+  const token = authHeader.slice('Bearer '.length).trim();
+  try {
+    const decoded = jwt.verify(token, getJwtSecret());
+    if (!decoded || typeof decoded === 'string') {
+      res.status(403).json({ success: false, message: 'Invalid or expired token.' });
+      return;
+    }
+
+    // Tokens historically used `id`; normalize it to an ObjectId for all routes.
+    const rawId = typeof decoded['id'] === 'string'
+      ? decoded['id']
+      : typeof decoded['userId'] === 'string'
+        ? decoded['userId']
+        : '';
+
+    if (!ObjectId.isValid(rawId)) {
+      res.status(403).json({ success: false, message: 'Invalid or expired token.' });
+      return;
+    }
+
+    req.user = {
+      ...decoded,
+      id: rawId,
+      userId: new ObjectId(rawId),
+    };
+    next();
+  } catch (error) {
+    if (error instanceof Error && error.message.startsWith('JWT_SECRET')) {
+      res.status(500).json({ success: false, message: 'Authentication is not configured on this server.' });
+      return;
+    }
+    res.status(403).json({ success: false, message: 'Invalid or expired token.' });
+  }
+};
+
+export default authMiddleware;

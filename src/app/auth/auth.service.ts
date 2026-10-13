@@ -12,8 +12,8 @@ export type AuthUser = {
 export class AuthService {
   private readonly http = inject(HttpClient);
 
-  signup(name: string, email: string, password: string): Observable<{ user: AuthUser }> {
-    return this.http.post<{ user: AuthUser }>('/api/auth/signup', {
+  signup(name: string, email: string, password: string): Observable<{ user: AuthUser; token: string }> {
+    return this.http.post<{ user: AuthUser; token: string }>('/api/auth/signup', {
       name,
       email,
       password,
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   currentUser(): Observable<any> {
-    const token = localStorage.getItem('token');
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` 
     })

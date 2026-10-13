@@ -81,13 +81,16 @@ export class Signup {
     this.loading.set(true);
 
     try {
-      await firstValueFrom(
+      const response = await firstValueFrom(
         this.auth.signup(
           payload.name,
           payload.email,
           payload.password,
         ),
       );
+      if (typeof localStorage !== 'undefined' && response.token) {
+        localStorage.setItem('token', response.token);
+      }
 
       await this.router.navigate(['/chat']);
     } catch {
