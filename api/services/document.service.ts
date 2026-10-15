@@ -532,7 +532,7 @@ export async function buildDocumentContext(
       .limit(700)
       .toArray();
     selected = candidates
-      .map((chunk) => ({ ...chunk, score: cosineSimilarity(queryVector, chunk.embedding) }))
+      .map((chunk) => ({ ...chunk, score: cosineSimilarity(queryVector, chunk[`embedding`]) }))
       .sort((left, right) => right.score - left.score)
       .slice(0, MAX_RETRIEVED_CHUNKS);
   }

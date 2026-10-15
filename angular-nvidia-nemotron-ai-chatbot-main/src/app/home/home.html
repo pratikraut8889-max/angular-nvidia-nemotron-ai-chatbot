@@ -1,0 +1,401 @@
+<div class="min-h-screen overflow-hidden bg-slate-950 text-white">
+  <!-- Navigation -->
+  <header class="relative z-20 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8"
+      aria-label="Main navigation">
+      <a routerLink="/" class="flex shrink-0 items-center gap-3" aria-label="NovaChat home">
+        <span
+          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 text-sm font-bold shadow-lg shadow-cyan-500/20">N</span>
+        <span class="text-xl font-semibold tracking-tight">NovaChat</span>
+      </a>
+
+      <div class="hidden items-center gap-7 text-sm text-slate-300 md:flex">
+        <a href="#features" class="transition hover:text-white">Features</a>
+        <a href="#workflow" class="transition hover:text-white">How it works</a>
+        <a href="#use-cases" class="transition hover:text-white">Use cases</a>
+        <a href="#faq" class="transition hover:text-white">FAQ</a>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a routerLink="/login"
+          class="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition hover:text-white sm:inline-flex">Sign
+          in</a>
+        <a routerLink="/signup"
+          class="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-slate-200 sm:px-5">
+          Create account
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="relative isolate overflow-hidden">
+      <div aria-hidden="true"
+        class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px] bg-[radial-gradient(ellipse_at_top,rgba(8,145,178,0.19),transparent_62%)]">
+      </div>
+      <div aria-hidden="true"
+        class="pointer-events-none absolute -right-40 top-32 -z-10 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl">
+      </div>
+
+      <div
+        class="mx-auto grid max-w-7xl items-center gap-14 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16 lg:py-28">
+        <div class="max-w-2xl">
+          <div
+            class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/[0.08] px-3.5 py-2 text-xs font-medium text-cyan-200 sm:text-sm">
+            <span class="h-2 w-2 rounded-full bg-cyan-300"></span>
+            One workspace for AI chat, files, and research
+          </div>
+
+          <h1 class="text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+            Make sense of your information.
+            <span
+              class="mt-2 block bg-gradient-to-r from-cyan-300 via-sky-400 to-blue-500 bg-clip-text text-transparent">Move
+              forward with AI.</span>
+          </h1>
+
+          <p class="mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
+            NovaChat brings AI conversations, document question-answering, and web-assisted research together. Ask
+            follow-up questions, explore your files, and use source links to check important findings.
+          </p>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a routerLink="/signup"
+              class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3.5 text-sm font-semibold shadow-lg shadow-cyan-500/20 transition hover:-translate-y-0.5 hover:shadow-cyan-500/30 sm:text-base">
+              Start with NovaChat
+              <span aria-hidden="true">→</span>
+            </a>
+            <a href="#workflow"
+              class="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-white/25 hover:bg-white/[0.07] sm:text-base">
+              See how it works
+            </a>
+          </div>
+
+          <p class="mt-4 max-w-xl text-xs leading-5 text-slate-500">
+            AI responses can be inaccurate. Check source material before relying on important information. Only upload
+            documents you are authorized to share with the configured AI providers.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-400">
+            <span class="inline-flex items-center gap-2"><span class="text-cyan-300">✓</span> Ask questions about your
+              files</span>
+            <span class="inline-flex items-center gap-2"><span class="text-cyan-300">✓</span> Keep conversations
+              organized</span>
+            <span class="inline-flex items-center gap-2"><span class="text-cyan-300">✓</span> Research current
+              topics</span>
+          </div>
+        </div>
+
+        <!-- Illustrative product preview: this is intentionally static, not a live chat control. -->
+        <div class="mx-auto w-full max-w-xl lg:mx-0">
+          <div
+            class="rounded-3xl border border-white/10 bg-slate-900/85 p-2 shadow-2xl shadow-cyan-950/30 ring-1 ring-white/[0.04] backdrop-blur">
+            <div class="overflow-hidden rounded-[1.35rem] border border-white/[0.06] bg-slate-950">
+              <div class="flex items-center justify-between border-b border-white/10 px-4 py-4 sm:px-5">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 text-xs font-bold">N</span>
+                  <div>
+                    <p class="text-sm font-semibold">Research workspace</p>
+                    <p class="mt-0.5 text-xs text-slate-500">Illustrative product preview</p>
+                  </div>
+                </div>
+                <span
+                  class="rounded-full border border-emerald-400/20 bg-emerald-400/[0.08] px-2.5 py-1 text-[11px] font-medium text-emerald-300">Document
+                  Q&amp;A</span>
+              </div>
+
+              <div class="space-y-5 p-4 sm:p-6">
+                <div class="flex justify-end">
+                  <div
+                    class="max-w-[88%] rounded-2xl rounded-br-md bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-3 text-sm leading-6 text-white">
+                    Summarize the main ideas in my project notes and identify what I should verify.
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <span
+                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-400/10 text-[11px] font-bold text-cyan-300">AI</span>
+                  <div class="min-w-0 flex-1 rounded-2xl rounded-tl-md border border-white/10 bg-slate-900 px-4 py-4">
+                    <p class="text-sm leading-6 text-slate-200">I can organize the key points from the selected document
+                      and separate what the file says from anything that still needs checking.</p>
+                    <div class="mt-4 space-y-2.5">
+                      <div class="h-2 w-full rounded-full bg-white/[0.07]"></div>
+                      <div class="h-2 w-[88%] rounded-full bg-white/[0.07]"></div>
+                      <div class="h-2 w-[72%] rounded-full bg-white/[0.07]"></div>
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                      <span
+                        class="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-slate-400">Summary</span>
+                      <span
+                        class="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-[11px] text-slate-400">Follow-up
+                        questions</span>
+                      <span
+                        class="rounded-lg border border-cyan-400/20 bg-cyan-400/[0.06] px-2.5 py-1.5 text-[11px] text-cyan-200">Selected
+                        file</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-xl border border-white/10 bg-white/[0.025] p-3.5">
+                  <div class="flex items-center gap-3">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-400/10 text-lg">▤</span>
+                    <div class="min-w-0 flex-1">
+                      <p class="truncate text-sm font-medium text-slate-200">Project notes.docx</p>
+                      <p class="mt-1 text-xs text-slate-500">Example of a selected knowledge file</p>
+                    </div>
+                    <span class="text-xs text-cyan-300">Selected</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="border-t border-white/10 p-3 sm:p-4">
+                <div class="flex items-center gap-3 rounded-xl border border-white/10 bg-slate-900 px-4 py-3">
+                  <span class="flex-1 text-sm text-slate-500">Ask a question about your files…</span>
+                  <span aria-hidden="true"
+                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-sm text-white">↑</span>
+                </div>
+                <p class="mt-2 text-center text-[10px] text-slate-600">Static preview · Sign in to use your workspace
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+            <div class="rounded-xl border border-white/10 bg-white/[0.025] px-2 py-3">
+              <p class="text-xs font-semibold text-slate-200 sm:text-sm">Chat</p>
+              <p class="mt-1 text-[10px] text-slate-500 sm:text-xs">Explore ideas</p>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/[0.025] px-2 py-3">
+              <p class="text-xs font-semibold text-slate-200 sm:text-sm">Documents</p>
+              <p class="mt-1 text-[10px] text-slate-500 sm:text-xs">Find key details</p>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/[0.025] px-2 py-3">
+              <p class="text-xs font-semibold text-slate-200 sm:text-sm">Web research</p>
+              <p class="mt-1 text-[10px] text-slate-500 sm:text-xs">Check current facts</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core capabilities -->
+    <section id="features" class="border-y border-white/10 bg-slate-900/45">
+      <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300 sm:text-sm">Core capabilities</p>
+          <h2 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">From a question to a clearer next step.</h2>
+          <p class="mt-4 text-base leading-7 text-slate-400 sm:text-lg">Bring your questions, source material, and
+            research into one focused workflow.</p>
+        </div>
+
+        <div class="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <article
+            class="rounded-2xl border border-white/10 bg-slate-950/80 p-6 transition hover:-translate-y-1 hover:border-cyan-400/30">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-xl"
+              aria-hidden="true">✦</div>
+            <h3 class="text-base font-semibold">AI conversations</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-400">Explore a topic, work through a question, and continue in
+              saved conversations without losing the thread.</p>
+          </article>
+
+          <article
+            class="rounded-2xl border border-white/10 bg-slate-950/80 p-6 transition hover:-translate-y-1 hover:border-blue-400/30">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-400/10 text-xl"
+              aria-hidden="true">▤</div>
+            <h3 class="text-base font-semibold">Answers from your files</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-400">Upload supported documents, choose which files apply to a
+              conversation, and ask questions about their contents.</p>
+          </article>
+
+          <article
+            class="rounded-2xl border border-white/10 bg-slate-950/80 p-6 transition hover:-translate-y-1 hover:border-violet-400/30">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-400/10 text-xl"
+              aria-hidden="true">⌕</div>
+            <h3 class="text-base font-semibold">Web-assisted research</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-400">For time-sensitive questions, retrieve web information and
+              provide source links when search results are available.</p>
+          </article>
+
+          <article
+            class="rounded-2xl border border-white/10 bg-slate-950/80 p-6 transition hover:-translate-y-1 hover:border-emerald-400/30">
+            <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-400/10 text-xl"
+              aria-hidden="true">◫</div>
+            <h3 class="text-base font-semibold">A workspace that stays organized</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-400">Keep conversations and knowledge files manageable, and
+              select relevant files for each document-focused task.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use cases -->
+    <section id="use-cases" class="bg-slate-950">
+      <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+        <div class="max-w-2xl">
+          <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300 sm:text-sm">Made for practical work
+          </p>
+          <h2 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Useful for the work you already do.</h2>
+          <p class="mt-4 leading-7 text-slate-400">Start with a question, add context when you have it, and use the
+            response as a starting point for your own decisions.</p>
+        </div>
+
+        <div class="mt-10 grid gap-4 lg:grid-cols-3">
+          <article class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-5 sm:p-6">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-400/10 text-lg"
+              aria-hidden="true">01</div>
+            <div>
+              <h3 class="font-semibold">Learn and build</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Ask for explanations, compare approaches, and break
+                technical concepts into manageable steps.</p>
+            </div>
+          </article>
+          <article class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-5 sm:p-6">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-400/10 text-lg"
+              aria-hidden="true">02</div>
+            <div>
+              <h3 class="font-semibold">Understand long documents</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Find relevant passages in project notes, guides, and
+                other supported files instead of rereading everything.</p>
+            </div>
+          </article>
+          <article class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-5 sm:p-6">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-400/10 text-lg"
+              aria-hidden="true">03</div>
+            <div>
+              <h3 class="font-semibold">Research before you decide</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Use web-assisted answers for changing information, then
+                open the source links and verify important details.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workflow -->
+    <section id="workflow" class="border-y border-white/10 bg-slate-900/45">
+      <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300 sm:text-sm">How it works</p>
+          <h2 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">A straightforward workflow.</h2>
+          <p class="mt-4 leading-7 text-slate-400">Bring context when it helps. Keep the final judgment in your hands.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3">
+          <div class="relative text-center">
+            <div
+              class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-lg font-bold text-cyan-200">
+              1</div>
+            <h3 class="mt-5 font-semibold">Ask or upload</h3>
+            <p class="mx-auto mt-2 max-w-xs text-sm leading-6 text-slate-400">Start with a prompt, or upload a supported
+              document and select it for your chat.</p>
+          </div>
+          <div class="text-center">
+            <div
+              class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-400/20 bg-blue-400/10 text-lg font-bold text-blue-200">
+              2</div>
+            <h3 class="mt-5 font-semibold">Retrieve useful context</h3>
+            <p class="mx-auto mt-2 max-w-xs text-sm leading-6 text-slate-400">NovaChat can use relevant document
+              excerpts and web research when the question calls for it.</p>
+          </div>
+          <div class="text-center">
+            <div
+              class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-400/20 bg-violet-400/10 text-lg font-bold text-violet-200">
+              3</div>
+            <h3 class="mt-5 font-semibold">Review and refine</h3>
+            <p class="mx-auto mt-2 max-w-xs text-sm leading-6 text-slate-400">Ask follow-up questions, inspect available
+              sources, and verify consequential details.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ and transparency -->
+    <section id="faq" class="bg-slate-950">
+      <div class="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300 sm:text-sm">Before you start</p>
+          <h2 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Clear expectations matter.</h2>
+          <p class="mt-4 max-w-md leading-7 text-slate-400">Use NovaChat as a working assistant—not as a substitute for
+            checking important sources or reviewing sensitive information policies.</p>
+          <a routerLink="/signup"
+            class="mt-7 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200">Create
+            your account <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="space-y-3">
+          <details class="group rounded-2xl border border-white/10 bg-white/[0.025] p-5" open>
+            <summary class="cursor-pointer list-none font-semibold text-slate-100 marker:hidden">Which files can I ask
+              questions about?</summary>
+            <p class="mt-3 text-sm leading-6 text-slate-400">The current application supports PDF, DOCX, TXT, CSV, and
+              Markdown files, with a 10 MiB upload limit. Scanned image-only PDFs may not contain extractable text and
+              are not currently OCR-processed.</p>
+          </details>
+          <details class="group rounded-2xl border border-white/10 bg-white/[0.025] p-5">
+            <summary class="cursor-pointer list-none font-semibold text-slate-100 marker:hidden">Does every answer use
+              web search?</summary>
+            <p class="mt-3 text-sm leading-6 text-slate-400">No. The application can answer general questions directly
+              and uses web search for detected time-sensitive questions. Web research depends on the server's Tavily
+              configuration and search availability.</p>
+          </details>
+          <details class="group rounded-2xl border border-white/10 bg-white/[0.025] p-5">
+            <summary class="cursor-pointer list-none font-semibold text-slate-100 marker:hidden">How is uploaded
+              document content processed?</summary>
+            <p class="mt-3 text-sm leading-6 text-slate-400">The app extracts text, splits it into chunks, and stores
+              the resulting chunks and embeddings for document Q&amp;A. Relevant excerpts may be sent to the configured
+              AI provider to answer questions. Avoid uploading confidential or regulated information unless you are
+              authorized to share it and have reviewed the applicable data-handling terms.</p>
+          </details>
+          <details class="group rounded-2xl border border-white/10 bg-white/[0.025] p-5">
+            <summary class="cursor-pointer list-none font-semibold text-slate-100 marker:hidden">Can AI responses be
+              wrong?</summary>
+            <p class="mt-3 text-sm leading-6 text-slate-400">Yes. Models can misunderstand a document or produce
+              incorrect information. Review relevant passages and source links, especially for technical, financial,
+              legal, medical, or business-critical decisions.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final call to action -->
+    <section id="about" class="px-5 pb-16 sm:px-8 sm:pb-24">
+      <div
+        class="relative mx-auto max-w-7xl overflow-hidden rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-cyan-950/80 via-slate-900 to-blue-950/70 px-6 py-12 text-center sm:px-12 sm:py-16">
+        <div aria-hidden="true"
+          class="pointer-events-none absolute left-1/2 top-0 h-64 w-96 -translate-x-1/2 rounded-full bg-cyan-400/10 blur-3xl">
+        </div>
+        <div class="relative mx-auto max-w-2xl">
+          <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200 sm:text-sm">Your next question
+            starts here</p>
+          <h2 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Bring your question. Bring your context.</h2>
+          <p class="mx-auto mt-4 max-w-xl leading-7 text-slate-300">Start a conversation, select a document when it
+            helps, and use NovaChat to turn scattered information into a clearer next step.</p>
+          <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <a routerLink="/signup"
+              class="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-slate-200">Create
+              your workspace <span aria-hidden="true">→</span></a>
+            <a routerLink="/login"
+              class="inline-flex items-center justify-center rounded-xl border border-white/20 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/[0.06]">I
+              already have an account</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 bg-slate-950">
+    <div
+      class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-7 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <a routerLink="/" class="inline-flex w-fit items-center gap-2 font-semibold text-slate-300"
+        aria-label="NovaChat home">
+        <span
+          class="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 text-[10px] font-bold text-white">N</span>
+        NovaChat
+      </a>
+      <p>AI-generated content can be inaccurate. Verify important information before relying on it.</p>
+      <p>© {{ currentYear }} NovaChat</p>
+    </div>
+  </footer>
+</div>
