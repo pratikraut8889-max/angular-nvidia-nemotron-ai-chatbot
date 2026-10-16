@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App  implements OnInit {
-  protected readonly title = signal('my-app');
+export class App implements OnInit {
+  protected readonly title = signal('ConversaNemo.ai');
   router = inject(Router);
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
