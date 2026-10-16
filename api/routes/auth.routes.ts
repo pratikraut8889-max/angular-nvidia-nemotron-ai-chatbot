@@ -23,7 +23,7 @@ function hashPassword(password: string): string {
 function verifyScryptPassword(password: string, storedHash: string): boolean {
   const [prefix, salt, hash] = storedHash.split('$');
   if (prefix !== SCRYPT_PREFIX || !salt || !/^[\da-f]{32}$/i.test(salt) ||
-      !hash || !/^[\da-f]{128}$/i.test(hash)) {
+    !hash || !/^[\da-f]{128}$/i.test(hash)) {
     return false;
   }
   const expected = Buffer.from(hash, 'hex');
@@ -81,7 +81,7 @@ router.post('/signup', mongoRateLimit({ scope: 'auth-signup', limit: 5, windowMs
       return;
     }
     console.error('Signup failed:', error instanceof Error ? error.message : error);
-    res.status(500).json({ error: 'Could not create your account. Check server configuration.' });
+    res.status(500).json({ error: error instanceof Error ? error.message : 'Could not create account. Check server configuration.' });
   }
 });
 

@@ -1,0 +1,66 @@
+
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+:host ::ng-deep .signup-form-field .mdc-text-field--outlined {
+  background: rgba(15, 23, 42, 0.55);
+  border-radius: 12px;
+}
+
+:host ::ng-deep
+  .signup-form-field
+  .mdc-notched-outline__leading,
+:host ::ng-deep
+  .signup-form-field
+  .mdc-notched-outline__notch,
+:host ::ng-deep
+  .signup-form-field
+  .mdc-notched-outline__trailing {
+  border-color: rgba(148, 163, 184, 0.4) !important;
+}
+
+:host ::ng-deep
+  .signup-form-field
+  .mat-mdc-form-field-infix {
+  min-height: 56px;
+}
+
+:host ::ng-deep
+  .signup-form-field
+  .mat-mdc-input-element {
+  color: #f8fafc !important;
+  caret-color: #a78bfa;
+}
+
+:host ::ng-deep
+  .signup-form-field
+  .mat-mdc-input-element::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+:host ::ng-deep
+  .signup-form-field
+  .mdc-floating-label {
+  color: #cbd5e1 !important;
+}
+
+:host ::ng-deep
+  .signup-form-field.mat-focused
+  .mdc-notched-outline__leading,
+:host ::ng-deep
+  .signup-form-field.mat-focused
+  .mdc-notched-outline__notch,
+:host ::ng-deep
+  .signup-form-field.mat-focused
+  .mdc-notched-outline__trailing {
+  border-color: #a78bfa !important;
+}
+
+:host ::ng-deep
+  .signup-form-field.mat-focused
+  .mdc-floating-label {
+  color: #c4b5fd !important;
+}

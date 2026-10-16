@@ -1,48 +1,57 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <title>NovaAIChatbot</title>
-  <base href="/" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18499021076"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'AW-18499021076');
-  </script>
-  <!-- Event snippet for Page view conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-  <script>
-    function gtag_report_conversion(url) {
-      var callback = function () {
-        if (typeof (url) != 'undefined') {
-          window.location = url;
-        }
-      };
-      gtag('event', 'conversion', {
-        'send_to': 'AW-18499021076/s2wMCNbXn5UdEJTSgvVE',
-        'value': 1.0,
-        'currency': 'INR',
-        'event_callback': callback
-      });
-      return false;
-    }
-  </script>
-
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-</head>
-
-<body>
-  <app-root></app-root>
-</body>
-
+  <head>
+    <meta charset="utf-8" />
+    <title>ConversaNemo.ai — Explore your files and the web with AI</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Ask questions, explore uploaded documents, and research current topics in one AI workspace with ConversaNemo.ai."
+    />
+    <meta name="theme-color" content="#020617" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ConversaNemo.ai — Explore your files and the web with AI" />
+    <meta
+      property="og:description"
+      content="Bring your questions, add your document context, and use AI to explore information and research current topics."
+    />
+    <meta property="og:site_name" content="ConversaNemo.ai" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Ads tag retained from the existing project. Review consent requirements before public launch. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18499021076"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18499021076');
+    </script>
+    <!-- Existing conversion event helper retained for compatibility. -->
+    <script>
+      function gtag_report_conversion(url) {
+        var callback = function () {
+          if (typeof url !== 'undefined') {
+            window.location.href = url;
+          }
+        };
+        gtag('event', 'conversion', {
+          'send_to': 'AW-18499021076/s2wMCNbXn5UdEJTSgvVE',
+          'value': 1.0,
+          'currency': 'INR',
+          'event_callback': callback
+        });
+        return false;
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>

@@ -1,67 +1,112 @@
-<div class="relative flex flex-col items-center justify-center p-2 h-[100vh] w-full">
+<div
+  class="relative isolate flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#070b18] px-4 py-10 text-white">
+  <!-- Background effects -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(109,40,217,0.22),transparent_45%),radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.16),transparent_45%)]">
+    </div>
 
+    <div class="absolute -left-32 top-16 h-80 w-80 rounded-full bg-violet-600/20 blur-[110px]"></div>
 
-  <form
-    [formRoot]="loginForm"
-    (ngSubmit)="submit()"
-    class="flex flex-col gap-4 w-full max-w-md mx-auto py-8 px-4 
- bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-70 border border-gray-300 shadow-2xl
-"
-  >
-    <h2 class="mb-4 text-2xl font-bold text-center">
-    Log in to your account
-  </h2>
-  <a
-      routerLink="/signup"
-      class="text-blue-600 hover:text-blue-800 ml-auto"
-    >
-      Create an account
-    </a>
-    <mat-form-field appearance="outline" class="w-full" >
-      <mat-label>Email</mat-label>
+    <div class="absolute -right-32 bottom-10 h-96 w-96 rounded-full bg-cyan-500/15 blur-[120px]"></div>
 
-      <input
-        matInput
-        type="email"
-        autocomplete="email"
-        [formField]="loginForm.email"
-        placeholder="Enter your email"
-        
-      />
-    </mat-form-field>
+    <div
+      class="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.035)_1px,transparent_1px)] bg-[size:44px_44px]">
+    </div>
+  </div>
 
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Password</mat-label>
+  <!-- Login content -->
+  <main class="relative z-10 w-full max-w-md">
 
-      <input
-        matInput
-        type="password"
-        autocomplete="current-password"
-        [formField]="loginForm.password"
-        placeholder="Enter your password"
-      />
-    </mat-form-field>
+    <!-- ConversaNemo.ai brand -->
+    <div class="mb-7 text-center">
+      <a routerLink="/" class="mb-5 inline-flex items-center justify-center gap-3" aria-label="ConversaNemo.ai home">
+        <span
+          class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 via-indigo-500 to-cyan-400 shadow-lg shadow-violet-500/25">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" class="h-7 w-7 text-white" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M8 10h8M8 14h5m-8 6 3.5-3H17a4 4 0 0 0 4-4V7a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h.5L5 20Z" />
+          </svg>
+        </span>
 
-    @if (error()) {
-      <p role="alert" class="text-sm text-red-700">
-        {{ error() }}
+        <span class="text-2xl font-bold tracking-tight text-white">
+          ConversaNemo.ai
+        </span>
+      </a>
+
+      <p class="text-sm text-slate-400">
+        Your ideas. Your knowledge. One conversation.
       </p>
-    }
+    </div>
 
-    <a
-      routerLink="/forget-password"
-      class="text-blue-600 hover:text-blue-800 text-center"
-    >
-      Forget Password
-    </a>
-    <button
-      mat-flat-button
-      color="primary"
-      type="submit"
-    >
-      Login
-    </button>
+    <!-- Glass login card -->
+    <section
+      class="rounded-3xl border border-white/10 bg-slate-900/75 p-6 shadow-2xl shadow-black/30 backdrop-blur-2xl sm:p-8">
+      <div class="mb-7">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-300">
+          Welcome back
+        </p>
 
-    
-  </form>
+        <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          Log in to your account
+        </h1>
+
+        <p class="mt-2 text-sm leading-6 text-slate-400">
+          Continue your conversations and explore your AI workspace.
+        </p>
+      </div>
+
+      <form [formRoot]="loginForm" (ngSubmit)="submit()" class="flex flex-col gap-5">
+        <mat-form-field appearance="outline" class="login-form-field w-full">
+          <mat-label>Email address</mat-label>
+
+          <input matInput type="email" autocomplete="email" [formField]="loginForm.email"
+            placeholder="you@example.com" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="login-form-field w-full">
+          <mat-label>Password</mat-label>
+
+          <input matInput type="password" autocomplete="current-password" [formField]="loginForm.password"
+            placeholder="Enter your password" />
+        </mat-form-field>
+
+        <div class="-mt-2 flex justify-end">
+          <a routerLink="/forget-password"
+            class="text-sm font-medium text-violet-300 transition-colors hover:text-cyan-300">
+            Forgot password?
+          </a>
+        </div>
+
+        @if (error()) {
+        <p role="alert" class="rounded-xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          {{ error() }}
+        </p>
+        }
+
+        <button mat-flat-button color="primary" type="submit"
+          class="!mt-1 !min-h-12 !w-full !rounded-xl !bg-gradient-to-r !from-violet-600 !via-indigo-600 !to-cyan-600 !font-semibold !tracking-wide !text-white !shadow-lg !shadow-violet-900/30 transition-all duration-200 hover:!brightness-110">
+          Login to ConversaNemo.ai
+        </button>
+      </form>
+
+      <div class="my-6 flex items-center gap-3">
+        <div class="h-px flex-1 bg-white/10"></div>
+        <span class="text-xs text-slate-500">NEW TO NOVACHAT?</span>
+        <div class="h-px flex-1 bg-white/10"></div>
+      </div>
+
+      <p class="text-center text-sm text-slate-400">
+        Don't have an account?
+        <a routerLink="/signup" class="ml-1 font-semibold text-violet-300 transition-colors hover:text-cyan-300">
+          Create an account
+        </a>
+      </p>
+    </section>
+
+    <p class="mt-6 text-center text-xs text-slate-500">
+      Powered by AI. Built for your ideas.
+    </p>
+  </main>
 </div>

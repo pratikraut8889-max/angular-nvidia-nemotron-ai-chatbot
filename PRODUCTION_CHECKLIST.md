@@ -1,4 +1,4 @@
-# NovaChat release checklist
+# ConversaNemo.ai release checklist
 
 ## Configuration
 - [ ] Set a unique `JWT_SECRET` with at least 32 random characters.

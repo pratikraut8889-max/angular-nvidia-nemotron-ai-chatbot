@@ -3,7 +3,8 @@ import { inflateRawSync } from 'node:zlib';
 import { ObjectId, type Collection, type Document } from 'mongodb';
 import { getDatabase } from '../config/database';
 
-const EMBEDDING_MODEL = process.env['NVIDIA_EMBEDDING_MODEL'] || 'nvidia/nv-embedqa-e5-v5';
+const RETIRED_EMBEDDING_MODEL = 'nvidia/nv-embedqa-e5-v5';
+const DEFAULT_EMBEDDING_MODEL = 'nvidia/nemotron-3-embed-1b';
 const EMBEDDING_URL = 'https://integrate.api.nvidia.com/v1/embeddings';
 const MAX_TEXT_CHARACTERS = 150_000;
 const MAX_CHUNKS_PER_DOCUMENT = 160;
@@ -12,7 +13,18 @@ const CHUNK_OVERLAP = 180;
 const EMBEDDING_BATCH_SIZE = 12;
 const MAX_RETRIEVED_CHUNKS = 8;
 const MAX_CONTEXT_CHARACTERS = 12_000;
-const VECTOR_DIMENSIONS = 1_024;
+const VECTOR_DIMENSIONS = 2_048;
+
+function getEmbeddingModel(): string {
+  const configuredModel = process.env['NVIDIA_EMBEDDING_MODEL']?.trim();
+  if (configuredModel === RETIRED_EMBEDDING_MODEL) {
+    throw new Error(
+      `NVIDIA_EMBEDDING_MODEL is set to retired model ${RETIRED_EMBEDDING_MODEL}. ` +
+      `Update it to ${DEFAULT_EMBEDDING_MODEL} and re-upload/re-index existing documents.`,
+    );
+  }
+  return configuredModel || DEFAULT_EMBEDDING_MODEL;
+}
 
 export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 export const MAX_DOCUMENTS_PER_USER = 25;
@@ -36,6 +48,7 @@ interface ChunkRecord extends Document {
   chunkIndex: number;
   text: string;
   embedding: number[];
+  embeddingModel: string;
   createdAt: Date;
 }
 
@@ -138,7 +151,7 @@ function extractDocxXml(buffer: Buffer): string {
   throw new DocumentInputError('The DOCX file does not contain a readable document body.');
 }
 
-function extractDocxText(buffer: Buffer): string {
+function extractDocxText(buffer: any): string {
   const xml = extractDocxXml(buffer);
   return xml
     .replace(/<w:tab\s*\/?\s*>/g, '\t')
@@ -310,6 +323,8 @@ async function embedTexts(texts: string[], inputType: 'passage' | 'query'): Prom
     throw new Error('Missing NVIDIA_API_KEY. It is required for document embeddings.');
   }
 
+  const embeddingModel = getEmbeddingModel();
+
   const response = await fetch(EMBEDDING_URL, {
     method: 'POST',
     headers: {
@@ -318,7 +333,7 @@ async function embedTexts(texts: string[], inputType: 'passage' | 'query'): Prom
     },
     body: JSON.stringify({
       input: texts,
-      model: EMBEDDING_MODEL,
+      model: embeddingModel,
       input_type: inputType,
       encoding_format: 'float',
     }),
@@ -394,6 +409,7 @@ export async function ingestDocument(args: {
 
   const extractedText = await extractDocumentText(args.buffer, args.fileName);
   const textChunks = chunkText(extractedText);
+  const embeddingModel = getEmbeddingModel();
   const vectors = await embedInBatches(textChunks, 'passage');
   const now = new Date();
   const documentId = new ObjectId();
@@ -407,6 +423,7 @@ export async function ingestDocument(args: {
     size: args.buffer.length,
     chunkCount: textChunks.length,
     extractedCharacters: extractedText.length,
+    embeddingModel,
     createdAt: now,
   };
 
@@ -420,6 +437,7 @@ export async function ingestDocument(args: {
       chunkIndex: index,
       text,
       embedding: vectors[index],
+      embeddingModel,
       createdAt: now,
     } as ChunkRecord));
     await chunks().insertMany(records, { ordered: true });
@@ -449,10 +467,11 @@ export async function deleteUserDocument(userId: ObjectId, documentId: ObjectId)
 }
 
 function cosineSimilarity(left: number[], right: number[]): number {
+  if (left.length === 0 || left.length !== right.length) return 0;
   let dot = 0;
   let leftNorm = 0;
   let rightNorm = 0;
-  for (let index = 0; index < Math.min(left.length, right.length); index += 1) {
+  for (let index = 0; index < left.length; index += 1) {
     dot += left[index] * right[index];
     leftNorm += left[index] * left[index];
     rightNorm += right[index] * right[index];
@@ -481,6 +500,7 @@ async function retrieveAtlasVectorSearch(
             $and: [
               { userId: { $eq: userId } },
               { documentId: { $in: documentIds } },
+              { embeddingModel: { $eq: getEmbeddingModel() } },
             ],
           },
         },
@@ -491,6 +511,7 @@ async function retrieveAtlasVectorSearch(
           documentId: 1,
           chunkIndex: 1,
           text: 1,
+          embeddingModel: 1,
           score: { $meta: 'vectorSearchScore' },
         },
       },
@@ -515,10 +536,18 @@ export async function buildDocumentContext(
   const uniqueIds = [...new Map(requestedDocumentIds.map((id) => [id.toHexString(), id])).values()];
   const owned = await documents()
     .find({ _id: { $in: uniqueIds }, userId })
-    .project({ _id: 1, fileName: 1 })
+    .project({ _id: 1, fileName: 1, embeddingModel: 1 })
     .toArray();
   if (owned.length !== uniqueIds.length) {
     throw new DocumentInputError('One or more selected documents are unavailable.', 404);
+  }
+
+  const activeEmbeddingModel = getEmbeddingModel();
+  if (owned.some((document: any) => document['embeddingModel'] !== activeEmbeddingModel)) {
+    throw new DocumentInputError(
+      'One or more selected documents were indexed with an older embedding model. Delete and upload those documents again before asking questions.',
+      409,
+    );
   }
 
   const [queryVector] = await embedInBatches([question], 'query');
@@ -528,12 +557,13 @@ export async function buildDocumentContext(
   if (!selected) {
     const candidates = await chunks()
       .find({ userId, documentId: { $in: uniqueIds } })
-      .project({ fileName: 1, documentId: 1, chunkIndex: 1, text: 1, embedding: 1 })
+      .project({ fileName: 1, documentId: 1, chunkIndex: 1, text: 1, embedding: 1, embeddingModel: 1 })
       .limit(700)
       .toArray();
     selected = candidates
-      .map((chunk) => ({ ...chunk, score: cosineSimilarity(queryVector, chunk[`embedding`]) }))
-      .sort((left, right) => right.score - left.score)
+      .filter((chunk: any) => chunk['embeddingModel'] === activeEmbeddingModel && Array.isArray(chunk['embedding']) && chunk['embedding'].length === VECTOR_DIMENSIONS)
+      .map((chunk: any) => ({ ...chunk, score: cosineSimilarity(queryVector, chunk['embedding']) }))
+      .sort((left: any, right: any) => right.score - left.score)
       .slice(0, MAX_RETRIEVED_CHUNKS);
   }
 

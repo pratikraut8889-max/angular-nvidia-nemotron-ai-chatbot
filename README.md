@@ -1,6 +1,6 @@
-# NovaChat — Angular 21 SSR + Nemotron + RAG
+# ConversaNemo.ai — Angular 21 SSR + Nemotron + RAG
 
-NovaChat is a single-server full-stack application: Angular 21 renders the frontend through SSR, while Express exposes the `/api` endpoints from the same Node process. MongoDB stores users, conversations, document metadata, text chunks, and embeddings.
+ConversaNemo.ai is a single-server full-stack application: Angular 21 renders the frontend through SSR, while Express exposes the `/api` endpoints from the same Node process. MongoDB stores users, conversations, document metadata, text chunks, and embeddings.
 
 ## Features
 
@@ -57,7 +57,6 @@ Use a supported modern Node.js version (Node 22 or newer is recommended for the 
    ```
 
    Required for the full-stack server:
-
    - `MONGODB_URI`: MongoDB connection string.
    - `JWT_SECRET`: random secret at least 32 characters long.
    - `NVIDIA_API_KEY`: used for Nemotron chat and embeddings.
@@ -87,7 +86,7 @@ Use a supported modern Node.js version (Node 22 or newer is recommended for the 
 2. The API validates the extension and file signature where applicable, extracts text, splits it into overlapping chunks, and generates passage embeddings.
 3. The metadata, extracted chunk text, and embeddings are saved in MongoDB. The original binary file is discarded after processing.
 4. Select one or more documents in a conversation. The selected document IDs are validated against the logged-in user and saved on that conversation.
-5. For each question, NovaChat embeds the question using `input_type: query`, retrieves the most similar chunks only from the selected documents, and passes those excerpts to the LLM.
+5. For each question, ConversaNemo.ai embeds the question using `input_type: query`, retrieves the most similar chunks only from the selected documents, and passes those excerpts to the LLM.
 
 Limits: 10 MiB per file, up to 25 documents per account, up to five selected files per conversation, a bounded extracted-text size, and a bounded number of chunks per file. Scanned/image-only PDFs are not OCR'd yet and return a clear no-readable-text error.
 
@@ -151,7 +150,6 @@ npm run build
 ```
 
 The current environment used to prepare this change did not have the project dependencies installed and could not reach the npm registry, so a complete Angular/TypeScript build could not be run here. Run `npm install`, then `npm run build` and the API integration tests in your own environment before merging or deploying.
-
 
 ## Useful references
 

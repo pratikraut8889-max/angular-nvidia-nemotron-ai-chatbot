@@ -7,4 +7,6 @@ import { RouterModule } from '@angular/router';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {}
+export class Home {
+  readonly currentYear = new Date().getFullYear();
+}
