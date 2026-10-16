@@ -110,7 +110,7 @@ router.put('/:conversationId/documents', authMiddleware, async (req: any, res) =
     return;
   }
   if (!Array.isArray(requested) || requested.length > MAX_SELECTED_DOCUMENTS ||
-      requested.some((value: unknown) => typeof value !== 'string' || !ObjectId.isValid(value))) {
+    requested.some((value: unknown) => typeof value !== 'string' || !ObjectId.isValid(value))) {
     res.status(400).json({ error: `Choose up to ${MAX_SELECTED_DOCUMENTS} valid documents.` });
     return;
   }
@@ -159,6 +159,7 @@ router.delete('/:conversationId', authMiddleware, async (req, res) => {
   res.status(204).end();
 });
 
+
 router.post('/:conversationId/messages', authMiddleware, mongoRateLimit({ scope: 'chat-message', limit: 30, windowMs: 60 * 1000 }), async (req, res) => {
   const id = conversationIdFrom(req);
   const content = typeof req.body?.content === 'string' ? req.body.content.trim() : '';
@@ -178,7 +179,7 @@ router.post('/:conversationId/messages', authMiddleware, mongoRateLimit({ scope:
     return;
   }
 
-  
+
   const userMessage: any = {
     _id: new ObjectId(),
     role: 'user',
@@ -202,7 +203,33 @@ router.post('/:conversationId/messages', authMiddleware, mongoRateLimit({ scope:
       ? await buildDocumentContext(content, userIdFrom(req), selectedDocumentIds)
       : '';
 
-    const response = await generateChatResponse(context, { documentContext });
+    // Load preferences from the authenticated user's account.
+    // Do not accept these settings from the request body.
+    const account: any = await getDatabase()
+      .collection('users')
+      .findOne(
+        { _id: userIdFrom(req) },
+        { projection: { settings: 1 } },
+      );
+
+    const savedSettings = account?.settings ?? {};
+    const answerStyle: 'concise' | 'balanced' | 'detailed' =
+      savedSettings.answerStyle === 'concise' ||
+        savedSettings.answerStyle === 'detailed' ||
+        savedSettings.answerStyle === 'balanced'
+        ? savedSettings.answerStyle
+        : 'balanced';
+
+    const webSearchEnabled =
+      typeof savedSettings.webSearchEnabled === 'boolean'
+        ? savedSettings.webSearchEnabled
+        : true;
+
+    const response = await generateChatResponse(context, {
+      documentContext,
+      answerStyle,
+      webSearchEnabled,
+    });
     const assistantMessage: any = {
       _id: new ObjectId(),
       role: 'assistant',

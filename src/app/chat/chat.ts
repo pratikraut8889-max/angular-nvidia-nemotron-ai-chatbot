@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { ChatMessage, ChatService, ConversationSummary, DocumentSummary } from './chat.service';
-import { MatIconModule} from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu'
 @Component({
@@ -81,7 +81,7 @@ export class Chat implements OnInit {
         this.selectedDocumentIds.set(conversation.documentIds ?? []);
         this.messages.set(conversation.messages);
         this.showSidebar.set(false);
-        
+
       },
       error: () => this.error.set('Could not load this conversation. Please try again.'),
     });
@@ -287,5 +287,14 @@ export class Chat implements OnInit {
         this.error.set('Could not load your conversations.');
       },
     });
+  }
+
+  goToProfile(): void {
+    this.showSidebar.set(false);
+    void this.router.navigate(['/profile']);
+  }
+  goToSettings(): void {
+    this.showSidebar.set(false);
+    void this.router.navigate(['/settings']);
   }
 }

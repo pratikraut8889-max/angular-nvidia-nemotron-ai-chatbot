@@ -1,0 +1,127 @@
+<main class="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl">
+        <header class="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <a routerLink="/chat" class="flex items-center gap-3" aria-label="Back to ConversaNemo.ai">
+                <span
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 text-sm font-bold shadow-lg shadow-cyan-500/20">AI</span>
+                <span class="text-xl font-semibold tracking-tight">ConversaNemo.ai</span>
+            </a>
+            <nav class="flex items-center gap-2" aria-label="Account navigation">
+                <a routerLink="/profile"
+                    class="rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Profile</a>
+                <a routerLink="/chat"
+                    class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-200">Back
+                    to chat</a>
+            </nav>
+        </header>
+
+        <section class="mb-8">
+            <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-300">Personalize ConversaNemo.ai
+            </p>
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Settings</h1>
+            <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Choose how you want the assistant to respond and
+                whether it can use live web research when needed.</p>
+        </section>
+
+        @if (loading()) {
+        <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-8 text-sm text-slate-400">Loading your
+            settings…</div>
+        } @else {
+        <form class="space-y-6" (ngSubmit)="saveSettings()">
+            <section class="rounded-2xl border border-white/10 bg-slate-900/70 p-6 shadow-2xl shadow-black/20 sm:p-8">
+                <div class="mb-6 flex items-start gap-4">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300"
+                        aria-hidden="true">Aa</div>
+                    <div>
+                        <h2 class="text-lg font-semibold">Response preferences</h2>
+                        <p class="mt-1 text-sm leading-6 text-slate-400">Set the default level of detail for new AI
+                            replies.</p>
+                    </div>
+                </div>
+
+                <fieldset class="space-y-3">
+                    <legend class="mb-3 text-sm font-medium text-slate-300">Default answer length</legend>
+                    <label class="flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition"
+                        [style.border-color]="answerStyle() === 'concise' ? 'rgba(34,211,238,.55)' : 'rgba(255,255,255,.10)'"
+                        [style.background-color]="answerStyle() === 'concise' ? 'rgba(34,211,238,.05)' : 'transparent'">
+                        <input type="radio" name="answerStyle" value="concise" [checked]="answerStyle() === 'concise'"
+                            (change)="answerStyle.set('concise')" class="mt-1 h-4 w-4 accent-cyan-400" />
+                        <span><span class="block text-sm font-semibold text-white">Concise</span><span
+                                class="mt-1 block text-sm leading-5 text-slate-400">Direct answers with only the most
+                                important details.</span></span>
+                    </label>
+                    <label class="flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition"
+                        [style.border-color]="answerStyle() === 'balanced' ? 'rgba(34,211,238,.55)' : 'rgba(255,255,255,.10)'"
+                        [style.background-color]="answerStyle() === 'balanced' ? 'rgba(34,211,238,.05)' : 'transparent'">
+                        <input type="radio" name="answerStyle" value="balanced" [checked]="answerStyle() === 'balanced'"
+                            (change)="answerStyle.set('balanced')" class="mt-1 h-4 w-4 accent-cyan-400" />
+                        <span><span class="block text-sm font-semibold text-white">Balanced</span><span
+                                class="mt-1 block text-sm leading-5 text-slate-400">A practical mix of explanation,
+                                examples, and brevity.</span></span>
+                    </label>
+                    <label class="flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition"
+                        [style.border-color]="answerStyle() === 'detailed' ? 'rgba(34,211,238,.55)' : 'rgba(255,255,255,.10)'"
+                        [style.background-color]="answerStyle() === 'detailed' ? 'rgba(34,211,238,.05)' : 'transparent'">
+                        <input type="radio" name="answerStyle" value="detailed" [checked]="answerStyle() === 'detailed'"
+                            (change)="answerStyle.set('detailed')" class="mt-1 h-4 w-4 accent-cyan-400" />
+                        <span><span class="block text-sm font-semibold text-white">Detailed</span><span
+                                class="mt-1 block text-sm leading-5 text-slate-400">More context, step-by-step
+                                explanations, and examples when useful.</span></span>
+                    </label>
+                </fieldset>
+            </section>
+
+            <section class="rounded-2xl border border-white/10 bg-slate-900/70 p-6 shadow-2xl shadow-black/20 sm:p-8">
+                <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                    <div class="flex items-start gap-4">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-400/10 text-violet-300"
+                            aria-hidden="true">⌕</div>
+                        <div>
+                            <h2 class="text-lg font-semibold">Live web research</h2>
+                            <p class="mt-1 max-w-xl text-sm leading-6 text-slate-400">Allow ConversaNemo.ai to retrieve
+                                current
+                                web information for questions that need it. When turned off, answers won't trigger live
+                                searches and may not reflect the latest information.</p>
+                        </div>
+                    </div>
+                    <label class="inline-flex shrink-0 cursor-pointer items-center gap-3 self-start">
+                        <span class="text-sm font-medium text-slate-300">{{ webSearchEnabled() ? 'Enabled' : 'Disabled'
+                            }}</span>
+                        <input type="checkbox" class="peer sr-only" name="webSearchEnabled"
+                            [checked]="webSearchEnabled()"
+                            (change)="webSearchEnabled.set($any($event.target).checked)" />
+                        <!-- [attr.aria-label]="'Live web research '  (webSearchEnabled() ? 'enabled' : 'disabled')" -->
+                        <span
+                            class="relative h-6 w-11 rounded-full bg-slate-700 transition peer-checked:bg-cyan-500 after:absolute after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform peer-checked:after:translate-x-5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-cyan-400"></span>
+                    </label>
+                </div>
+                <p
+                    class="mt-5 rounded-xl border border-white/5 bg-slate-950/50 px-4 py-3 text-xs leading-5 text-slate-500">
+                    Live research also requires the server's Tavily API key. This preference does not change or expose
+                    your API credentials.</p>
+            </section>
+
+            @if (error()) {
+            <p role="alert" class="rounded-xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">{{
+                error() }}</p>
+            }
+            @if (success()) {
+            <p role="status"
+                class="rounded-xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">{{
+                success() }}</p>
+            }
+
+            <div class="flex flex-wrap justify-end gap-3">
+                <a routerLink="/chat"
+                    class="rounded-xl border border-white/10 px-5 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/5">Cancel</a>
+                <button type="submit" [disabled]="saving()"
+                    class="rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/10 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60">
+                    {{ saving() ? 'Saving…' : 'Save preferences' }}
+                </button>
+            </div>
+        </form>
+        }
+
+        <p class="mt-8 text-center text-xs text-slate-600">ConversaNemo.ai · Personal settings</p>
+    </div>
+</main>

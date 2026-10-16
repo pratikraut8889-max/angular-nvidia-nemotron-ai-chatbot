@@ -13,9 +13,17 @@ export const routes: Routes = [
         path: 'chat',
         loadComponent: () => import('./chat/chat').then(m => m.Chat)
     },
-  
+
     {
         path: '',
         loadComponent: () => import('./home/home').then(m => m.Home)
-    }
+    },
+    {
+        path: 'profile',
+        loadComponent: () => import('./profile/profile').then(m => m.Profile)
+    },
+    {
+        path: 'settings',
+        loadComponent: () => import('./settings/settings').then(m => m.Settings)
+    },
 ];
